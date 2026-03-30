@@ -77,7 +77,7 @@ export function buildGgrFromEditorStops(
   const lines: string[] = [
     "GIMP Gradient",
     `Name: ${name.replace(/[\n\r]/g, " ").trim() || "Custom Gradient"}`,
-    `Number of segments: ${numSegments}`,
+    `${numSegments}`,
   ];
 
   for (let i = 0; i < numSegments; i++) {
@@ -100,6 +100,8 @@ export function buildGgrFromEditorStops(
         byteToUnit(rr), byteToUnit(rg), byteToUnit(rb), "1.000000",
         "0", // blending: linear
         "0", // coloring: RGB
+        "0", // color type left: fixed
+        "0", // color type right: fixed
       ].join(" "),
     );
   }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import { LanguageProvider, useLanguage } from "@/context/LanguageContext";
 import { ConversionResult, downloadGgr } from "@/lib/convertGrdToGgr";
@@ -181,6 +181,21 @@ function AppInner() {
 // Root export
 // ─────────────────────────────────────────────────────────────────────────────
 export default function Home() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  // By waiting for the component to mount on the client,
+  // we completely avoid hydration mismatch errors caused by
+  // browser extensions (like Bitdefender) injecting attributes 
+  // into the HTML before React hydrates, whilst also waiting
+  // for the language state to be fully resolved.
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <LanguageProvider>
       <AppInner />

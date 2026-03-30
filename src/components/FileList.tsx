@@ -15,6 +15,7 @@ import {
   Eye,
 } from "lucide-react";
 import { clsx } from "clsx";
+import JSZip from "jszip";
 import { convertGrdToGgr, downloadGgr, ConversionResult } from "@/lib/convertGrdToGgr";
 import GradientPreview from "@/components/GradientPreview";
 import { useLanguage } from "@/context/LanguageContext";
@@ -79,13 +80,48 @@ export default function FileList({ entries, onRemove, onUpdate, onPreview }: Fil
     downloadGgr(result.ggrContent, safeName);
   };
 
-  const downloadAll = () => {
+  const downloadAll = async () => {
+    const zip = new JSZip();
+    let hasFiles = false;
+    const nameCounts = new Map<string, number>();
+
+    const doneEntries = entries.filter((e) => e.status === "done" && e.results && e.results.length > 0);
+    if (doneEntries.length === 0) return;
+
+    let zipName = "gradients.zip";
+    if (doneEntries.length === 1) {
+      zipName = `${doneEntries[0].file.name.replace(/\.grd$/i, "")}.zip`;
+    } else {
+      zipName = `${doneEntries[0].file.name.replace(/\.grd$/i, "")}_and_${doneEntries.length - 1}_others.zip`;
+    }
+
     entries.forEach((entry) => {
       if (entry.status === "done" && entry.results) {
         const baseName = entry.file.name.replace(/\.grd$/i, "");
-        entry.results.forEach((r) => downloadOne(r, baseName));
+        entry.results.forEach((r) => {
+          const safeName = r.gradientName.replace(/[^a-z0-9_\- ]/gi, "_").slice(0, 60) || baseName;
+          const currentCount = nameCounts.get(safeName) || 0;
+          nameCounts.set(safeName, currentCount + 1);
+          
+          const finalName = currentCount > 0 ? `${safeName} (${currentCount})` : safeName;
+          
+          zip.file(`${finalName}.ggr`, r.ggrContent);
+          hasFiles = true;
+        });
       }
     });
+
+    if (hasFiles) {
+      const content = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(content);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = zipName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
   };
 
   const pendingCount = entries.filter((e) => e.status === "pending").length;

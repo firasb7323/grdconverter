@@ -19,7 +19,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" className={inter.variable} suppressHydrationWarning data-scroll-behavior="smooth">
       <body className="min-h-screen antialiased" suppressHydrationWarning>{children}</body>
     </html>
   );

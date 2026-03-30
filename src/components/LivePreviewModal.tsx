@@ -141,6 +141,7 @@ export default function LivePreviewModal({ result, onClose }: LivePreviewModalPr
                 src="/previewimage.png"
                 alt="Gradient map preview"
                 fill
+                sizes="(max-width: 768px) 100vw, 60vw"
                 className="object-cover"
                 style={{ filter: "url(#modal-grad-map)" }}
                 priority

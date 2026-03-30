@@ -46,6 +46,7 @@ function GradientBar({
   onAddStop,
   onRemoveStop,
 }: GradientBarProps) {
+  const { t } = useLanguage();
   const barRef = useRef<HTMLDivElement>(null);
   const [dragId, setDragId] = useState<string | null>(null);
   const rectRef = useRef<DOMRect | null>(null);
@@ -173,7 +174,7 @@ function GradientBar({
 
       <div className="flex justify-between px-1 text-[10px] font-medium text-gray-400 uppercase tracking-widest mt-1">
         <span>0%</span>
-        <span>Drag down to delete</span>
+        <span>{t.create?.dragDelete ?? "Drag down to delete"}</span>
         <span>100%</span>
       </div>
     </div>

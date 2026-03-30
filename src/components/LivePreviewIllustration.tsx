@@ -121,6 +121,7 @@ export default function LivePreviewIllustration({
             alt="Gradient map preview"
             width={700}
             height={700}
+            sizes="(max-width: 768px) 100vw, 700px"
             priority
             onError={() => setImgOk(false)}
             className="w-full h-auto object-cover max-h-[600px]"

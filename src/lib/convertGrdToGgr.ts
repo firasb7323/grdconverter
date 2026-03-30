@@ -177,21 +177,25 @@ function parseDescriptor(s: Stream): DescValue {
 // ---------------------------------------------------------------------------
 // Typed accessors (throw with clear messages on bad structure)
 // ---------------------------------------------------------------------------
-function asObj(v: DescValue, ctx: string): Extract<DescValue, { tag: "Objc" }> {
+function asObj(v: DescValue | undefined, ctx: string): Extract<DescValue, { tag: "Objc" }> {
+  if (!v) throw new Error(`Missing property at ${ctx}`);
   if (v.tag !== "Objc") throw new Error(`Expected Objc at ${ctx}, got ${v.tag}`);
   return v;
 }
-function asList(v: DescValue, ctx: string): Extract<DescValue, { tag: "VlLs" }> {
+function asList(v: DescValue | undefined, ctx: string): Extract<DescValue, { tag: "VlLs" }> {
+  if (!v) throw new Error(`Missing property at ${ctx}`);
   if (v.tag !== "VlLs") throw new Error(`Expected VlLs at ${ctx}, got ${v.tag}`);
   return v;
 }
-function asDouble(v: DescValue, ctx: string): number {
+function asDouble(v: DescValue | undefined, ctx: string): number {
+  if (!v) throw new Error(`Missing property at ${ctx}`);
   if (v.tag === "doub") return v.value;
   if (v.tag === "long") return v.value;
   if (v.tag === "UntF") return v.value;
   throw new Error(`Expected numeric at ${ctx}, got ${v.tag}`);
 }
-function asText(v: DescValue, ctx: string): string {
+function asText(v: DescValue | undefined, ctx: string): string {
+  if (!v) throw new Error(`Missing property at ${ctx}`);
   if (v.tag === "TEXT") return v.value;
   throw new Error(`Expected TEXT at ${ctx}, got ${v.tag}`);
 }
@@ -215,51 +219,59 @@ interface TransparencyStop {
 }
 
 // ---------------------------------------------------------------------------
-// Extract a single colour stop from a VlLs item
+// Extract a single colour stop safely handling missing channels (like CMYK Yel)
 // ---------------------------------------------------------------------------
+function getSafeDouble(obj: Record<string, DescValue>, key: string, fallback = 0): number {
+  const v = obj[key];
+  if (!v) return fallback;
+  if (v.tag === "doub" || v.tag === "long" || v.tag === "UntF") return v.value;
+  return fallback;
+}
+
 function parseColorStop(item: DescValue): ColorStop {
   const obj = asObj(item, "ColorStop");
   const props = obj.props;
 
-  const lctn = asDouble(props["Lctn"], "Lctn");
-  const mdpn = asDouble(props["Mdpn"], "Mdpn");
-
-  const clrObj = asObj(props["Clr "], "Clr ");
-  const typename = clrObj.typename;
+  const lctn = getSafeDouble(props, "Lctn", 0);
+  const mdpn = getSafeDouble(props, "Mdpn", 50);
 
   let r = 0, g = 0, b = 0;
   let colorModel: ColorStop["colorModel"] = "RGB";
 
-  if (typename === "RGBC") {
-    r = asDouble(clrObj.props["Rd  "], "Rd  ");
-    g = asDouble(clrObj.props["Grn "], "Grn ");
-    b = asDouble(clrObj.props["Bl  "], "Bl  ");
-    colorModel = "RGB";
-  } else if (typename === "HSBC") {
-    // Convert HSB → RGB
-    const h = asDouble(clrObj.props["H   "], "H   ") / 360;
-    const s = asDouble(clrObj.props["Strt"], "Strt") / 100;
-    const v = asDouble(clrObj.props["Brgh"], "Brgh") / 100;
-    [r, g, b] = hsbToRgb(h, s, v);
-    colorModel = "HSB";
-  } else if (typename === "CMYC") {
-    // CMYK → RGB approximation
-    const c = asDouble(clrObj.props["Cyn "], "Cyn ") / 100;
-    const m = asDouble(clrObj.props["Mgnt"], "Mgnt") / 100;
-    const y = asDouble(clrObj.props["Yllw"], "Yllw") / 100;
-    const k = asDouble(clrObj.props["Blck"], "Blck") / 100;
-    r = 255 * (1 - c) * (1 - k);
-    g = 255 * (1 - m) * (1 - k);
-    b = 255 * (1 - y) * (1 - k);
-    colorModel = "CMYK";
-  } else if (typename === "Grsc") {
-    // Grayscale
-    const gray = asDouble(clrObj.props["Gry "], "Gry ") / 100;
-    r = g = b = gray * 255;
-    colorModel = "GRAY";
+  if (props["Clr "]) {
+    const clrObj = asObj(props["Clr "], "Clr ");
+    const typename = clrObj.typename;
+    const cp = clrObj.props;
+
+    if (typename === "RGBC") {
+      r = getSafeDouble(cp, "Rd  ");
+      g = getSafeDouble(cp, "Grn ");
+      b = getSafeDouble(cp, "Bl  ");
+      colorModel = "RGB";
+    } else if (typename === "HSBC") {
+      const h = getSafeDouble(cp, "H   ") / 360;
+      const s = getSafeDouble(cp, "Strt") / 100;
+      const v = getSafeDouble(cp, "Brgh") / 100;
+      [r, g, b] = hsbToRgb(h, s, v);
+      colorModel = "HSB";
+    } else if (typename === "CMYC") {
+      const c = getSafeDouble(cp, "Cyn ") / 100;
+      const m = getSafeDouble(cp, "Mgnt") / 100;
+      const y = (getSafeDouble(cp, "Yel ") || getSafeDouble(cp, "Yllw")) / 100;
+      const k = getSafeDouble(cp, "Blck") / 100;
+      r = Math.max(0, Math.min(255, 255 * (1 - c) * (1 - k)));
+      g = Math.max(0, Math.min(255, 255 * (1 - m) * (1 - k)));
+      b = Math.max(0, Math.min(255, 255 * (1 - y) * (1 - k)));
+      colorModel = "CMYK";
+    } else if (typename === "Grsc") {
+      const gray = getSafeDouble(cp, "Gry ") / 100;
+      r = g = b = gray * 255;
+      colorModel = "GRAY";
+    } else {
+      colorModel = "GRAY";
+    }
   } else {
-    // Fallback: black
-    r = g = b = 0;
+    colorModel = "GRAY";
   }
 
   return { lctn, mdpn, r, g, b, colorModel };
@@ -297,10 +309,14 @@ function parseTransparencyStop(item: DescValue): TransparencyStop {
   const obj = asObj(item, "TransStop");
   const props = obj.props;
   const lctn = asDouble(props["Lctn"], "Lctn");
-  const mdpn = asDouble(props["Mdpn"], "Mdpn");
+  const mdpn = props["Mdpn"] ? asDouble(props["Mdpn"], "Mdpn") : 50;
+  
   // Opacity is stored as UntF with unit "%" — value is 0-100
   const opDesc = props["Opct"];
-  const opacity = opDesc.tag === "UntF" ? opDesc.value : asDouble(opDesc, "Opct");
+  let opacity = 100;
+  if (opDesc) {
+    opacity = opDesc.tag === "UntF" ? opDesc.value : asDouble(opDesc, "Opct");
+  }
   return { lctn, mdpn, opacity };
 }
 
@@ -390,19 +406,32 @@ function parseGrdFile(buffer: ArrayBuffer): ParsedGradient[] {
       const gradDesc = asObj(topObj.props["Grad"], `GradItem[${i}].Grad`);
 
       // --- Name ---
-      const name = asText(gradDesc.props["Nm  "], "Nm  ").replace(/\0/g, "").trim() || `Gradient ${i + 1}`;
+      const nmProp = gradDesc.props["Nm  "];
+      const name = nmProp ? asText(nmProp, "Nm  ").replace(/\0/g, "").trim() || `Gradient ${i + 1}` : `Gradient ${i + 1}`;
 
       // --- Color stops ---
-      const clrsList = asList(gradDesc.props["Clrs"], "Clrs");
+      const clrsProp = gradDesc.props["Clrs"];
+      if (!clrsProp) throw new Error("Missing color stops (Clrs)");
+      
+      const clrsList = asList(clrsProp, "Clrs");
       const colorStops = clrsList.items.map(parseColorStop);
 
       // Sort by position
       colorStops.sort((a, b) => a.lctn - b.lctn);
 
       // --- Transparency stops ---
-      const trnsList = asList(gradDesc.props["Trns"], "Trns");
-      const transparencyStops = trnsList.items.map(parseTransparencyStop);
-      transparencyStops.sort((a, b) => a.lctn - b.lctn);
+      let transparencyStops: TransparencyStop[] = [];
+      const trnsProp = gradDesc.props["Trns"];
+      if (trnsProp) {
+        const trnsList = asList(trnsProp, "Trns");
+        transparencyStops = trnsList.items.map(parseTransparencyStop);
+        transparencyStops.sort((a, b) => a.lctn - b.lctn);
+      } else {
+        transparencyStops = [
+          { lctn: 0, mdpn: 50, opacity: 100 },
+          { lctn: 4096, mdpn: 50, opacity: 100 }
+        ];
+      }
 
       gradients.push({ name, colorStops, transparencyStops });
     } catch (err) {
@@ -435,7 +464,7 @@ function buildGgr(grad: ParsedGradient): ConversionResult {
   const lines: string[] = [];
   lines.push("GIMP Gradient");
   lines.push(`Name: ${name}`);
-  lines.push(`Number of segments: ${numSegments}`);
+  lines.push(`${numSegments}`);
 
   // Preview data (for the UI gradient bar)
   const preview: ConversionResult["preview"] = [];
@@ -458,7 +487,6 @@ function buildGgr(grad: ParsedGradient): ConversionResult {
     const rightOpacity = interpolateOpacity(right.lctn, transparencyStops);
 
     // GIMP segment line:
-    // left_pos mid_pos right_pos R0 G0 B0 A0 R1 G1 B1 A1 blending coloring
     const line = [
       leftPos.toFixed(6),
       midPos.toFixed(6),
@@ -467,6 +495,8 @@ function buildGgr(grad: ParsedGradient): ConversionResult {
       toUnit(right.r), toUnit(right.g), toUnit(right.b), opacityToUnit(rightOpacity),
       "0", // blending: 0 = linear
       "0", // coloring: 0 = RGB
+      "0", // color type left: 0 = fixed
+      "0", // color type right: 0 = fixed
     ].join(" ");
     lines.push(line);
 

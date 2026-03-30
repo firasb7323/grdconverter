@@ -110,6 +110,7 @@ export interface Translations {
     imageBy: string;
     from: string;
     navLink: string;
+    dragDelete?: string;
   };
 }
 
@@ -196,6 +197,7 @@ export const translations: Record<Lang, Translations> = {
       imageBy:       "이미지 제공:",
       from:          "출처:",
       navLink:       "업로드 변환기로 돌아가기",
+      dragDelete:    "아래로 드래그하여 삭제",
     },
   },
 
@@ -278,6 +280,7 @@ export const translations: Record<Lang, Translations> = {
       imageBy:       "Image by",
       from:          "from",
       navLink:       "Create Gradient",
+      dragDelete:    "Drag down to delete",
     },
   },
 
@@ -351,7 +354,7 @@ export const translations: Record<Lang, Translations> = {
     },
     create: {
       pageTitle:     "Creador de Degradados",
-      heroSubtitle:  "Diseña un degradado visualmente y excu00f3rtalo como archivo .GGR para GIMP & Krita.",
+      heroSubtitle:  "Diseña un degradado visualmente y expórtalo como archivo .GGR para GIMP & Krita.",
       editorTitle:   "Editor de Degradados",
       dragHint:      "Arrastra puntos · Haz clic en la barra para agregar",
       selectedStop:  "Punto Seleccionado",
@@ -360,6 +363,7 @@ export const translations: Record<Lang, Translations> = {
       imageBy:       "Imagen de",
       from:          "en",
       navLink:       "Crear Degradado",
+      dragDelete:    "Arrastra hacia abajo para eliminar",
     },
   },
 
@@ -442,6 +446,7 @@ export const translations: Record<Lang, Translations> = {
       imageBy:       "Imagem de",
       from:          "de",
       navLink:       "Criar Gradiente",
+      dragDelete:    "Arraste para baixo para excluir",
     },
   },
 
@@ -524,6 +529,7 @@ export const translations: Record<Lang, Translations> = {
       imageBy:       "图片来自",
       from:          "来自",
       navLink:       "创建渐变",
+      dragDelete:    "向下拖动以删除",
     },
   },
 
@@ -606,6 +612,7 @@ export const translations: Record<Lang, Translations> = {
       imageBy:       "画像提供：",
       from:          "バイ",
       navLink:       "グラデーション作成",
+      dragDelete:    "下にドラッグして削除",
     },
   },
 
@@ -687,6 +694,7 @@ export const translations: Record<Lang, Translations> = {
       imageBy:       "صورة لـ",
       from:          "من",
       navLink:       "إنشاء تدرج",
+      dragDelete:    "اسحب لأسفل للحذف",
     },
   },
 
@@ -768,6 +776,7 @@ export const translations: Record<Lang, Translations> = {
       imageBy:       "चित्र",
       from:          "द्वारा",
       navLink:       "ग्रेडिएंट बनाएं",
+      dragDelete:    "हटाने के लिए नीचे खींचें",
     },
   },
 };
