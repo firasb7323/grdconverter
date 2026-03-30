@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GRD to GGR Converter 🚀
 
-## Getting Started
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
 
-First, run the development server:
+## 📝 Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**GRD to GGR Converter** is an open-source web application tailored for digital artists and designers. It seamlessly converts Adobe Photoshop gradient files (`.grd`) into the format used by GIMP and Krita (`.ggr`). The entire parsing process operates locally in the browser, ensuring zero network uploads and absolute privacy. It also features a built-in visual gradient editor structured like professional design tools.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Key Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Local & Private Parsing:** Client-side conversion of `.grd` binaries.
+- **Interactive Visual Editor:** Inspector-style UI with drag-to-delete handles.
+- **Live Rendering:** Real-time gradient preview mapping via native SVG filters.
+- **Multi-language Support:** Extensible i18n architecture.
+- **Batch Extraction:** Unpack and export hundreds of gradients from a single file simultaneously.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 💻 Usage Guide
 
-## Learn More
+### Converting `.grd` Files
+1. Drag and drop your Photoshop `.grd` file into the main **Converter** page.
+2. Preview all the extracted color swatches on your screen.
+3. Click **Download all** to get your `.ggr` files ready for Krita.
 
-To learn more about Next.js, take a look at the following resources:
+### Designing from Scratch
+1. Navigate to the **Create Gradient** tab.
+2. Modify color stops through the visual slider and built-in color picker.
+3. Name your gradient and click **Download .GGR**.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🤝 Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+We welcome community contributions!
+1. Fork the project.
+2. Create your feature branch (`git checkout -b feature/NewFeature`).
+3. Commit your changes (`git commit -m 'feat: Add NewFeature'`).
+4. Push to the branch (`git push origin feature/NewFeature`).
+5. Open a Pull Request.
 
-## Deploy on Vercel
+## 📄 License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project is licensed under the MIT License.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+Designed with ❤️ by [@betzadev](https://github.com/betzadev)
