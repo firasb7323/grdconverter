@@ -6,6 +6,12 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
 
+<br/>
+
+> ### 🎨 [Open GRDConverter](https://grdconverter.vercel.app/)
+
+<br/>
+
 ## 📝 Overview
 
 **GRD to GGR Converter** is an open-source web application tailored for digital artists and designers. It seamlessly converts Adobe Photoshop gradient files (`.grd`) into the format used by GIMP and Krita (`.ggr`). The entire parsing process operates locally in the browser, ensuring zero network uploads and absolute privacy. It also features a built-in visual gradient editor structured like professional design tools.
@@ -17,6 +23,29 @@
 - **Live Rendering:** Real-time gradient preview mapping via native SVG filters.
 - **Multi-language Support:** Extensible i18n architecture.
 - **Batch Extraction:** Unpack and export hundreds of gradients from a single file simultaneously.
+
+## 📸 Screenshots
+
+### Homepage & Converter
+![Homepage](./public/homepage.png)
+
+### Convert File
+![Convert File](./public/convert.png)
+
+### Convert Preview
+![Convert Preview](./public/convertpreview.png)
+
+### Convert Live Preview
+![Convert Live Preview](./public/convertlivepreview.png)
+
+### Gradient Creator
+![Gradient Creator](./public/gradientcreator.png)
+
+### Built-in Color Picker
+![Color Picker](./public/colorpicker.png)
+
+### Multi-language Support
+![Languages](./public/languages.png)
 
 ## 💻 Usage Guide
 
